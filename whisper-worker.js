@@ -12,7 +12,7 @@ function ensureLoaded(){
   if (transcriber) return Promise.resolve(transcriber);
   if (!loadingPromise){
     loadingPromise = pipeline("automatic-speech-recognition", "onnx-community/whisper-tiny", {
-      dtype: "q8",
+      dtype: "fp32",
       progress_callback: (p) => {
         if (p && p.file && typeof p.progress === "number"){
           postMessage({ type: "whisper-file-progress", file: p.file, progress: p.progress });
