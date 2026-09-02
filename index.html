@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F4B8B0">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<title>Undertone</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-mark" aria-hidden="true">&#127807;</div>
+      <div class="loading-title">Getting Undertone ready</div>
+      <div class="loading-status" id="loadingStatus">Warming up&hellip;</div>
+      <div class="loading-bar-track"><div class="loading-bar-fill" id="loadingBarFill"></div></div>
+      <p class="loading-note" id="loadingNote">
+        First launch downloads two small on-device models (about 450MB total) for transcription
+        and reflection. Everything after this runs fully offline, and nothing ever leaves your phone.
+      </p>
+      <button class="edit-link loading-retry" id="loadingRetryBtn" hidden>Retry</button>
+    </div>
+
+    <div class="screen" id="screen-journal" hidden>
+      <div class="cal-wrap">
+        <div class="cal-head">
+          <span class="cal-title" id="calTitle"></span>
+          <span class="cal-nav">Today</span>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="bottom-panel" id="bottomPanel">
+        <div class="action-row" id="actionRow"></div>
+        <div class="entries-scroll" id="entriesScroll"></div>
+      </div>
+    </div>
+
+    <div class="screen" id="screen-todo" hidden>
+      <div class="todo-wrap" id="todoWrap"></div>
+    </div>
+
+    <div class="screen" id="screen-entry" hidden>
+      <div class="entry-head">
+        <button class="back-btn" id="entryBack" aria-label="Back">&#8249;</button>
+        <span class="entry-head-date" id="entryHeadDate"></span>
+      </div>
+      <div class="entry-body" id="entryBody"></div>
+      <div class="chips" id="entryChips">
+        <button class="chip summary" data-chip="summary">Summary</button>
+        <button class="chip actions" data-chip="actions">Action Items</button>
+        <button class="chip organize" data-chip="organize">Organize Discussion</button>
+      </div>
+      <div class="composer">
+        <input id="composerInput" type="text" placeholder="Ask a follow-up...">
+        <button class="send-btn" id="composerSend">Send</button>
+      </div>
+    </div>
+
+    <div class="screen" id="screen-prompts" hidden>
+      <div class="entry-head">
+        <button class="back-btn" id="promptsBack" aria-label="Back">&#8249;</button>
+        <span class="entry-head-date">Daily Prompts</span>
+      </div>
+      <div class="entry-body" id="promptsBody"></div>
+      <div id="promptError" class="error-text" hidden>Write something first.</div>
+      <div class="composer">
+        <input id="newPromptInput" type="text" placeholder="Write your own prompt...">
+        <button class="send-btn" id="addPromptBtn">Add</button>
+      </div>
+    </div>
+
+    <div class="tabbar" id="tabbar" hidden>
+      <button class="tab active" data-tab="journal">Journal</button>
+      <button class="tab" data-tab="todo">To-do</button>
+    </div>
+
+    <div class="settings-backdrop" id="settingsBackdrop" hidden></div>
+    <button class="settings-fab" id="settingsFab" aria-label="Settings" hidden>&#9881;</button>
+    <div class="settings-panel" id="settingsPanel" hidden>
+      <button class="settings-row" id="darkToggleRow">
+        <span>Dark Mode</span>
+        <span class="switch" id="darkSwitch"><span class="knob"></span></span>
+      </button>
+      <button class="settings-row" id="editPromptsRow">
+        <span>Edit Prompts</span><span class="chev">&#8250;</span>
+      </button>
+      <button class="settings-row" id="exportRow">
+        <span>Export Data</span><span class="chev">&#8250;</span>
+      </button>
+      <button class="settings-row" id="importRow">
+        <span>Import Data</span><span class="chev">&#8250;</span>
+      </button>
+      <button class="settings-row danger" id="resetRow">
+        <span>Reset All Data</span><span class="chev">&#8250;</span>
+      </button>
+      <div class="settings-confirm" id="resetConfirm" hidden>
+        <p>This deletes every entry, chat, and custom prompt on this device. It can't be undone.</p>
+        <div class="settings-confirm-actions">
+          <button class="delete-link" id="resetConfirmYes">Yes, Reset</button>
+          <button class="edit-link" id="resetConfirmNo">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <input type="file" id="importFileInput" accept="application/json" hidden>
+
+    <div class="toast" id="toast" hidden></div>
+  </div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
