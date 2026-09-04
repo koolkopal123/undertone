@@ -572,13 +572,17 @@ async function runTranscription(entryId, blob){
     entry.status = "transcribed";
     await dbPut("entries", entry);
   } catch (err){
+    console.error("Transcription failed, raw error object:", err);
     const entry = await dbGet("entries", entryId);
+    let errMsg = (err && err.message) ? err.message : (err ? String(err) : "");
+    if (!errMsg) errMsg = "(empty error \u2014 open your browser devtools console for the real message)";
     if (entry){
       entry.status = "error";
       entry.transcript = "";
+      entry.transcriptError = errMsg;
       await dbPut("entries", entry);
     }
-    showToast("Transcription failed for that entry.");
+    showToast("Transcription failed: " + errMsg);
   }
   if (state.currentEntryId === entryId) renderEntry();
   if (state.tab === "journal") renderBottomPanel();
@@ -664,7 +668,7 @@ async function renderEntry(){
   } else {
     const transcriptHtml = entry.transcript
       ? escapeHtml(entry.transcript)
-      : '<span style="color:var(--danger)">Transcription failed. Tap Edit to write it yourself, or Delete to discard this entry.</span>';
+      : '<span style="color:var(--danger)">Transcription failed' + (entry.transcriptError ? (": " + escapeHtml(entry.transcriptError)) : "") + '. Tap Edit to write it yourself, or Delete to discard this entry.</span>';
     card.innerHTML =
       '<div class="transcript-top"><span class="transcript-label">Transcript</span>' +
       '<div class="transcript-actions"><button class="edit-link" id="editLink">Edit</button>' +

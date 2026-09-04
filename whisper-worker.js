@@ -45,7 +45,9 @@ self.onmessage = async (e) => {
       const result = await t(url, { chunk_length_s: 30, stride_length_s: 5 });
       postMessage({ type: "transcribe-result", id: msg.id, text: ((result && result.text) || "").trim() });
     } catch (err){
-      postMessage({ type: "transcribe-error", id: msg.id, error: String((err && err.message) || err) });
+      console.error("whisper-worker transcribe() threw:", err);
+      const errStr = (err && err.message) ? err.message : (err ? String(err) : "(empty error thrown in worker)");
+      postMessage({ type: "transcribe-error", id: msg.id, error: errStr });
     } finally {
       if (url) URL.revokeObjectURL(url);
     }
